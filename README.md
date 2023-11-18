@@ -74,3 +74,17 @@ Videos:
   - `.pdbrc`: personalize your experience
     - set up aliases / custom mapping
     - enhance with readline support
+
+## Functions
+
+### Function signature (positional and keyword only arguments)
+
+Docs:
+
+- [Example code -- mCoding](https://github.com/mCodingLLC/VideosSampleCode/blob/c13fcff31a34ccf767515134bf2c3e63a4e1acae/videos/094_positional_and_keyword_only_args/positional_and_keyword_only_args.py)
+- [PEP 570 – Python Positional-Only Parameters](https://peps.python.org/pep-0570/)
+- [PEP 3102 – Keyword-Only Arguments](https://peps.python.org/pep-3102/)
+
+Videos:
+
+- [Positional-only and keyword-only arguments in Python](https://youtu.be/R8-oAqCgHag)
