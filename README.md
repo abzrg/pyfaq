@@ -159,3 +159,147 @@ Mypy:
 Videos:
 
 - [Automated Testing in Python with pytest, tox, and GitHub Actions](https://www.youtube.com/watch?v=DhUpxWjOhME)
+
+## Python data structures
+
+Docs:
+
+- [builtin types -- python library](https://docs.python.org/3/library/stdtypes.html#set)
+
+### set
+
+Docs:
+
+- [set -- bulitin types](https://docs.python.org/3/library/stdtypes.html#set-types-set-frozenset)
+
+About:
+
+- A set object is an unordered collection of distinct hashable objects. Common
+  uses include membership testing, removing duplicates from a sequence, and
+  computing mathematical operations such as intersection, union, difference, and
+  symmetric difference.
+
+- Like other collections, sets support `x in set`, `len(set)`, and `for x in set`.
+  Being an _unordered_ collection, sets do not record element position or order of
+  insertion. Accordingly, sets do not support indexing, slicing, or other
+  sequence-like behavior.
+
+- There are currently two built-in set types, `set` and `frozenset`. The `set` type is
+  _mutable_ — the contents can be changed using methods like `add()` and `remove()`.
+  Since it is mutable, it has no hash value and cannot be used as either a
+  _dictionary key_ or as _an element of another set_. The `frozenset` type is _immutable_
+  and hashable — its contents cannot be altered after it is created; it can
+  therefore be used as a dictionary key or as an element of another set.
+
+- Non-empty sets (not `frozensets`) can be created by placing a comma-separated
+  list of elements within braces, for example: `{'jack', 'sjoerd'}`, in addition to
+  the set constructor.
+
+Create:
+
+- Use a comma-separated list of elements within braces: `{'jack', 'sjoerd'}`
+- Use a set comprehension: `{c for c in 'abracadabra' if c not in 'abc'}`
+- Use the type constructor: `set()`, `set('foobar')`, `set(['a', 'b', 'foo'])`
+
+```py
+s = set() # not {}
+s = {1}
+s = {1, 1} # -> s = {1}
+s = {1, 2, 3}
+s = set([1, 2, 3]) # iterable must be passed
+s = {1, '2', {3: ('Hello', 'world')} }
+```
+
+Methods ([ref](https://youtu.be/sBvaPopWOmQ)):
+
+- `.add(...)`: add an element to a set (this has no effect if the element is already present)
+  - if the type is not "hashable" it raises TypeError. e.g. you cannot pass a list
+- `.update(iterable1[, iterable2, ...])`: add values in the iterable to the list
+  - values in the iterable must be hashable
+  - `set |= others | ...`
+- `.pop()`: Remove and return an arbitrary element from the set. Raises `KeyError` if the set is empty.`
+- `.remove(...)`: removes the element if it's a member, otherwise raises a `KeyError`
+- `.discard(...)`: like `.remove`, but if the element is not a member, does nothing
+- `.clear()`: to empty out the set
+- `.union(<*others>)`: returns a new set that is the union of self and other
+  - `set | other | ...`
+- `.intersection(<*others>)`: returns a new set that is intersection of self and other
+  `set & other & ...`
+- `.difference(<*others>)`: returns set of values that are in self but not in <other> (asymmetric difference)
+  - `set - other - ...`
+- `.symmetric_difference(<*others>)`: returns set of values that are not shared by both self and other
+  - `set ^ other ^ ...`
+- `intersection_update(*others)`: Update the set, keeping only elements found in it and all others.
+  - `set &= other & ...`
+- use `in` and `not in` operators to check if a value is in the set
+
+patterns:
+
+- removing duplicates in a list
+
+  ```py
+  l = [...]
+  l_nodup = list(set(l))
+  ```
+
+- intersection of two lists:
+
+  ```py
+  employees = [...]
+  gym_members = [...]
+  developers = [...]
+
+  result = set(gym_members).intersection(developers)
+  ```
+
+- detect positive words
+
+  ```py
+  POS_WORDS = {'awesome', ...}
+  NEG_WORDS = {'hate',...}
+
+  def detect_positive(review: str) -> bool:
+      words = review.split()
+      count_positive = len(POS_WORDS.intersection(words))
+      count_negative = len(NEG_WORDS.intersection(words))
+      return count_positive >= count_negative
+  ```
+
+### dict
+
+empty dict:
+
+```py
+d = dict()
+#or
+d = {}
+```
+
+methods ([ref](https://www.youtube.com/watch?v=u0yr9B3nH8c)):
+
+- `.keys()`: returns an iterable (`dict_keys([.,.,.])`) containing keys only
+- `.values()`: return an iterable (`dict_values([.,.,.])`) containing values only
+- `.pop(<key>)`: removes the item with the specified `<key>` from the dictionary, and, also returns the value associated with the `<key>`
+  - poping non-existing key raises `KeyError`.
+- `.popitem()`: remove the last item from the dictionary and returns the item
+  - popping an empty dictionary raises `KeyError`
+- `.copy()`: shallow copy (only a new reference)
+- `.get(<key>, default=None)`: returns the value associated with `key` if it exists, otherwise `None` or `<default>` value (if passed)
+- `.setdefault(<key>, default=None)`: if `<key>` in dict, return it, otherwise add a new item and return the `<default>` value
+- `.clear()`: remove all items from dictionary
+- `.fromkeys(iterable, value=None)`: create a new dict when keys from iterable and values set to value
+- `.items()`: returns an iterable containing tuples of key-value pair (iterable of items)
+  - used in for loops:
+
+  ```py
+  for k, v in users.items():
+      print(k, v)
+  ```
+- `.update(<somedict>)`: modify, update or expand dictionary
+  ```py
+  user.update({3: 'Mario', 4: 'Luigi', 5: 'James'})
+  #or
+  users = users | {3: 'Mario', 4: 'Luigi', 5: 'James'}
+  #or even
+  users |= {3: 'Mario', 4: 'Luigi', 5: 'James'}
+  ```
